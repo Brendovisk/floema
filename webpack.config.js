@@ -6,7 +6,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 
 const IS_DEVELOPMENT = process.env.NODE_ENV === "dev";
-
 const dirApp = path.join(__dirname, "app");
 const dirShared = path.join(__dirname, "shared");
 const dirStyles = path.join(__dirname, "styles");
@@ -20,10 +19,12 @@ module.exports = {
   },
 
   plugins: [
+    // set the environment variable that will be available in all the modules
     new webpack.DefinePlugin({
       IS_DEVELOPMENT,
     }),
 
+    // copy static files placed inside the shared folder to public folder
     new CopyWebpackPlugin({
       patterns: [
         {
@@ -33,14 +34,16 @@ module.exports = {
       ],
     }),
 
+    // extract css into its own file
     new MiniCssExtractPlugin({
-      filename: "[name].css",
-      chunkFilename: "[id].css",
+      filename: "[contenthash].css",
+      chunkFilename: "[contenthash].css",
     }),
   ],
 
   module: {
     rules: [
+      // load and compile js with babel
       {
         test: /\.js$/,
         use: {
@@ -48,6 +51,7 @@ module.exports = {
         },
       },
 
+      // load and compile scss with multiple loaders
       {
         test: /\.scss$/,
         use: [
@@ -69,30 +73,45 @@ module.exports = {
         ],
       },
 
+      // load images and fonts
       {
         test: /\.(png|jpe?g|gif|svg|ttf|woff|woff2|webp)$/,
         loader: "file-loader",
         options: {
-          name(file) {
-            return "[hash].[ext]";
-          },
+          name: "[contenthash].[ext]", // compile into hashname.fileextension
         },
       },
 
+      // set the shaders
       {
-        test: /\.(png|jpe?g|gif|svg|ttf|woff|woff2|webp)$/i,
-        use: [
-          {
-            loader: ImageMinimizerPlugin.loader,
-            options: {
-              severityError: "warning",
-              minimizerOptions: {
-                plugins: [["gifsicle"]],
-              },
-            },
-          },
-        ],
+        test: /\.(glsl|frag|vert)$/,
+        loader: "raw-loader",
+        exclude: /node_modules/,
       },
+      {
+        test: /\.(glsl|frag|vert)$/,
+        loader: "glslify-loader",
+        exclude: /node_modules/,
+      },
+    ],
+  },
+
+  // optimize images
+  optimization: {
+    minimizer: [
+      "...",
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminMinify,
+          options: {
+            plugins: [
+              ["gifsicle", { interlaced: true }],
+              ["jpegtran", { progressive: true }],
+              ["optipng", { optimizationLevel: 5 }],
+            ],
+          },
+        },
+      }),
     ],
   },
 };
