@@ -1,10 +1,11 @@
 module.exports = {
-  root: true,
-  extends: ["eslint:recommended", "plugin:prettier/recommended"],
-  globals: {
-    IS_DEVELOPMENT: "readonly",
+  env: {
+    browser: true,
+    es2021: true
   },
-  parseOptions: {
-    ecmaVersion: "latest",
-  },
-};
+  extends: ['standard', 'eslint:recommended'],
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module'
+  }
+}
