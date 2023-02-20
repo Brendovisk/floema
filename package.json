@@ -2,10 +2,12 @@
   "name": "floema",
   "version": "1.0.0",
   "scripts": {
-    "build": "webpack --progress --config webpack.config.build.js",
-    "development": "webpack serve --progress --config webpack.config.development.js",
+    "backend:build": "node app.js",
+    "backend:development": "nodemon app.js",
+    "frontend:build": "webpack --progress --config webpack.config.build.js",
+    "frontend:development": "webpack serve --progress --config webpack.config.development.js",
     "format": "standard --fix",
-    "start": "npm run development"
+    "start": "concurrently --kill-others \"npm run backend:development\" \"npm run frontend:development\""
   },
   "repository": {
     "type": "git",
@@ -17,9 +19,15 @@
     "url": "https://github.com/Brendovisk/floema/issues"
   },
   "homepage": "https://github.com/Brendovisk/floema#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20",
+    "pug": "^3.0.2"
+  },
   "devDependencies": {
     "babel-loader": "^9.1.2",
     "clean-webpack-plugin": "^4.0.0",
+    "concurrently": "^7.6.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
     "eslint": "^8.34.0",
