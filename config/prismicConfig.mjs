@@ -8,9 +8,19 @@ const accessToken = process.env.PRISMIC_ACCESS_TOKEN
 
 const routes = [
   {
+    type: 'meta',
+    uid: 'metadata',
+    path: '/'
+  },
+  {
     type: 'collection',
     uid: 'vita-collection',
     path: '/'
+  },
+  {
+    type: 'about',
+    uid: 'about',
+    path: '/about'
   }
 ]
 

@@ -3,16 +3,21 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import dotenv from 'dotenv'
 import * as prismicH from '@prismicio/helpers'
-import { client } from './config/prismicConfig.js'
+import { client } from './config/prismicConfig.mjs'
 dotenv.config()
 
+// Create Express app
 const app = express()
 const port = process.env.PORT || 3000
 
+// Set the view engine to pug
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 
+// Add a middleware function that runs on every route. It will inject
+// the prismic context to the locals so that we can access these in
+// our templates.
 app.use((req, res, next) => {
   res.locals.ctx = {
     prismicH
@@ -20,10 +25,12 @@ app.use((req, res, next) => {
   next()
 })
 
-app.get('/', async (req, res) => {
-  const document = await client.getFirst()
-  res.render('pages/home', { document })
-  console.log(document)
+// Query paths
+app.get('/about', async (req, res) => {
+  const [meta] = await client.getAllByType('meta')
+  const [about] = await client.getAllByType('about')
+
+  res.render('pages/home', { meta, about })
 })
 
 // app.get('/about', (req, res) => {

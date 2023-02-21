@@ -2,10 +2,10 @@
   "name": "floema",
   "version": "1.0.0",
   "scripts": {
-    "backend:build": "node app.js",
-    "backend:development": "nodemon app.js",
-    "frontend:build": "webpack --progress --config webpack.config.build.cjs",
-    "frontend:development": "webpack serve --progress --config webpack.config.development.cjs",
+    "backend:build": "node app.mjs",
+    "backend:development": "nodemon app.mjs",
+    "frontend:build": "webpack --progress --config webpack.config.build.js",
+    "frontend:development": "webpack serve --progress --config webpack.config.development.js",
     "format": "standard --fix",
     "start": "concurrently --kill-others \"npm run backend:development\" \"npm run frontend:development\""
   },
@@ -19,7 +19,6 @@
     "url": "https://github.com/Brendovisk/floema/issues"
   },
   "homepage": "https://github.com/Brendovisk/floema#readme",
-  "type": "module",
   "dependencies": {
     "@prismicio/client": "^6.7.3",
     "@prismicio/helpers": "^2.3.9",
