@@ -56,6 +56,19 @@ app.get('/detail/:uid', async (req, res) => {
   res.render('pages/detail', { meta, product })
 })
 
+app.get('/collections', async (req, res) => {
+  const api = await initApi(req)
+
+  const [meta] = await api.getAllByType('meta')
+  const collections = await api.getAllByType('collection', {
+    fetchLinks: 'product.image'
+  })
+
+  console.log(collections)
+
+  res.render('pages/collections', { meta, collections })
+})
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
