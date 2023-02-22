@@ -20,6 +20,19 @@ app.set('view engine', 'pug')
 app.use((req, res, next) => {
   res.locals.PrismicH = prismicH
 
+  // Add a helper function to list all the collections
+  res.locals.Numbers = (index) => {
+    return index === 0
+      ? 'One'
+      : index === 1
+      ? 'Two'
+      : index === 2
+      ? 'Three'
+      : index === 3
+      ? 'Four'
+      : ''
+  }
+
   next()
 })
 
@@ -32,41 +45,33 @@ const initApi = (req) => {
   })
 }
 
-// query paths
+// routes
 app.get('/about', async (req, res) => {
   const api = await initApi(req)
-
   const [meta] = await api.getAllByType('meta')
   const [about] = await api.getAllByType('about')
-
   res.render('pages/about', { meta, about })
 })
 
 app.get('/detail/:uid', async (req, res) => {
   const api = await initApi(req)
-
   const uid = req.params.uid
   const [meta] = await api.getAllByType('meta')
   const product = await api.getByUID('product', uid, {
     fetchLinks: 'collection.title'
   })
-
-  console.log(product.data)
-
   res.render('pages/detail', { meta, product })
 })
 
 app.get('/collections', async (req, res) => {
   const api = await initApi(req)
-
   const [meta] = await api.getAllByType('meta')
+  const [home] = await api.getAllByType('home')
   const collections = await api.getAllByType('collection', {
     fetchLinks: 'product.image'
   })
-
-  console.log(collections)
-
-  res.render('pages/collections', { meta, collections })
+  res.render('pages/collections', { meta, home, collections })
+  console.log(home)
 })
 
 app.listen(port, () => {
