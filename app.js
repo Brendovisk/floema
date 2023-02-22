@@ -49,28 +49,31 @@ const initApi = (req) => {
 app.get('/about', async (req, res) => {
   const api = await initApi(req)
   const [meta] = await api.getAllByType('meta')
+  const [preloader] = await api.getAllByType('preloader')
   const [about] = await api.getAllByType('about')
-  res.render('pages/about', { meta, about })
+  res.render('pages/about', { meta, preloader, about })
 })
 
 app.get('/detail/:uid', async (req, res) => {
   const api = await initApi(req)
   const uid = req.params.uid
   const [meta] = await api.getAllByType('meta')
+  const [preloader] = await api.getAllByType('preloader')
   const product = await api.getByUID('product', uid, {
     fetchLinks: 'collection.title'
   })
-  res.render('pages/detail', { meta, product })
+  res.render('pages/detail', { meta, preloader, product })
 })
 
 app.get('/collections', async (req, res) => {
   const api = await initApi(req)
   const [meta] = await api.getAllByType('meta')
+  const [preloader] = await api.getAllByType('preloader')
   const [home] = await api.getAllByType('home')
   const collections = await api.getAllByType('collection', {
     fetchLinks: 'product.image'
   })
-  res.render('pages/collections', { meta, home, collections })
+  res.render('pages/collections', { meta, preloader, home, collections })
   console.log(home)
 })
 
