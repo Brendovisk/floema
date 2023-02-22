@@ -51,7 +51,7 @@ app.get('/detail/:uid', async (req, res) => {
     fetchLinks: 'collection.title'
   })
 
-  console.log(product)
+  console.log(product.data)
 
   res.render('pages/detail', { meta, product })
 })
