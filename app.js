@@ -43,7 +43,7 @@ app.use((req, res, next) => {
   next()
 })
 
-// init prismic api
+// Init prismic api
 const initApi = (req) => {
   return prismic.createClient(process.env.PRISMIC_REPO_NAME, {
     accessToken: process.env.PRISMIC_ACCESS_TOKEN,
@@ -52,7 +52,18 @@ const initApi = (req) => {
   })
 }
 
-// routes
+// Routes
+app.get('/', async (req, res) => {
+  const api = await initApi(req)
+  const [meta] = await api.getAllByType('meta')
+  const [preloader] = await api.getAllByType('preloader')
+  const [home] = await api.getAllByType('home')
+  const collections = await api.getAllByType('collection', {
+    fetchLinks: 'product.image'
+  })
+  res.render('pages/home', { meta, preloader, home, collections })
+})
+
 app.get('/about', async (req, res) => {
   const api = await initApi(req)
   const [meta] = await api.getAllByType('meta')
