@@ -3,12 +3,19 @@ require('dotenv').config()
 const express = require('express')
 const fetch = require('node-fetch')
 const path = require('path')
-
 const app = express()
 const port = process.env.PORT || 3000
+const bodyParser = require('body-parser')
+const morgan = require('morgan')
+const methodOverride = require('method-override')
 
 const prismic = require('@prismicio/client')
 const prismicH = require('@prismicio/helpers')
+
+// Express configurations
+app.use(morgan('dev'))
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(methodOverride())
 
 // Set the view engine to pug
 app.set('views', path.join(__dirname, 'views'))
@@ -74,7 +81,6 @@ app.get('/collections', async (req, res) => {
     fetchLinks: 'product.image'
   })
   res.render('pages/collections', { meta, preloader, home, collections })
-  console.log(home)
 })
 
 app.listen(port, () => {
