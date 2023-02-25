@@ -1,0 +1,7 @@
+@use '../utils/placeholders';
+@use '../utils/variables';
+
+body {
+  @extend %description-16;
+  font-family: variables.$font-suisse-bp;
+}

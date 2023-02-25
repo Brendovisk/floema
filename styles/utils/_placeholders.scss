@@ -1,0 +1,58 @@
+@use 'variables';
+
+%description-12 {
+  font-size: 1.2rem;
+}
+
+%description-14 {
+  font-size: 1.4rem;
+}
+
+%description-16 {
+  font-size: 1.6rem;
+  font-weight: 300;
+}
+
+%title-20 {
+  font-family: variables.$font-george-x;
+  font-size: 1.2rem;
+}
+
+%title-53 {
+  font-family: variables.$font-george-x;
+  font-size: 5.3rem;
+}
+
+%title-60 {
+  font-family: variables.$font-george-x;
+  font-size: 6rem;
+}
+
+%title-100 {
+  font-family: variables.$font-george-x;
+  font-size: 10rem;
+}
+
+%title-120 {
+  font-family: variables.$font-george-x;
+  font-size: 12rem;
+}
+
+%title-200 {
+  font-family: variables.$font-george-x;
+  font-size: 20rem;
+}
+
+%center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+%cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
