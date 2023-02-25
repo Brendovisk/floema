@@ -16,6 +16,7 @@ const prismicH = require('@prismicio/helpers')
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(methodOverride())
+app.use(express.static(path.join(__dirname, 'public')))
 
 // Set the view engine to pug
 app.set('views', path.join(__dirname, 'views'))
