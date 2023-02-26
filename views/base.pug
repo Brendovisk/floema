@@ -3,8 +3,6 @@ block variables
 doctype html
 html(lang="en")
   head
-    base(href="/")
-
     meta(charset="UTF-8")
     meta(http-equiv="X-UA-Compatible" content="IE=edge")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
@@ -30,8 +28,9 @@ html(lang="en")
     meta(name="twitter:description" content=meta.data.description)
     meta(name="twitter:image" content=meta.data.image ? meta.data.image.url : '')
 
-    link(rel="stylesheet", href="main.css")
+    link(rel="stylesheet" href="main.css")
 
+    base(href="/")
   body
     include ./partials/preloader
     include ./partials/navigation
